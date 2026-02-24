@@ -59,5 +59,20 @@ class TestMain(unittest.TestCase):
         sys.stdout = sys.__stdout__
         self.assertEqual(load_tasks(), [])
 
+    def test_persistent_tasks(self):
+        main(["task1"])
+        main(["list"])
+        main(["remove", "1"])
+        main(["list"])
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+
+    def test_empty_file_add_remove(self):
+        # Test adding and removing tasks when the file is empty
+        main(["add", "task1"])
+        main(["remove", "1"])
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+
 if __name__ == '__main__':
     unittest.main()
