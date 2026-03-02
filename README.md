@@ -1,6 +1,6 @@
 # Simple CLI Todo List
 
-This is a simple command-line tool for managing a todo list.  It persists tasks to a JSON file, allowing them to be carried over between sessions.
+This is a command-line tool for managing a todo list. It now includes the ability to mark tasks as complete. Tasks are persisted to a JSON file, allowing them to be carried over between sessions.
 
 ## Usage
 
@@ -26,16 +26,25 @@ python main.py remove 1
 
 This will remove the task at index 1 (remembering that task numbers start at 1).
 
+To mark a task as complete, run:
+
+```bash
+python main.py complete 1
+```
+
+This will mark the task at index 1 as complete.
+
 ## Commands
 
 *   `add <task(s)>`: Adds one or more tasks to the list. Tasks are joined with spaces.
 *   `list`: Lists all tasks.
 *   `remove <task_number>`: Removes a task by its number (starting from 1).
+*   `complete <task_number>`: Marks a task as complete.
 
 ## Features
 
 *   **Task Persistence:** Tasks are saved to a JSON file (`todo.json`) and loaded when the application starts.
-*   **Command-Line Interface:** Provides a simple command-line interface for adding, listing, and removing tasks.
+*   **Command-Line Interface:** Provides a simple command-line interface for adding, listing, removing, and marking tasks as complete.
 *   **Error Handling:** Includes basic error handling for invalid input (e.g., missing tasks, invalid task numbers).
 
 ## Bugs Fixed
@@ -44,19 +53,21 @@ This will remove the task at index 1 (remembering that task numbers start at 1).
 *   Fixed an issue where the application would not save tasks if they were added.
 *   Fixed an issue where the application would not list tasks if the list was empty.
 *   Added tests to ensure task persistence.
+*   Added functionality to mark tasks as complete.
 
 ## Tests
 
-Comprehensive unit tests have been added to ensure the functionality of the application. The tests cover adding, listing, removing tasks, handling invalid input, and verifying task persistence.
+Comprehensive unit tests have been added to ensure the functionality of the application. The tests cover adding, listing, removing tasks, handling invalid input, and verifying task persistence, as well as the new "complete" functionality.
 
 ## Improvements
 
 *   **Task Persistence:** Implemented task persistence using a JSON file.
-*   **Command-Line Arguments:**  Improved command-line argument parsing for clarity and flexibility.
+*   **Command-Line Arguments:** Improved command-line argument parsing for clarity and flexibility.
 *   **Error Handling:** Enhanced error handling for invalid input.
 *   **Unit Tests:** Added comprehensive unit tests to ensure the application's reliability.
 *   **Documentation:** Updated the README with clear usage instructions and a description of the features.
 *   **Example Usage:** Added example commands to the README.
+*   **New Feature:** Implemented the ability to mark tasks as complete.
 
 ## Future Enhancements
 

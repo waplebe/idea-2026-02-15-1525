@@ -1,7 +1,7 @@
 import unittest
 import sys
 import os
-from cli_todo.main import main, load_tasks, save_tasks, add_task, list_tasks, remove_task
+from cli_todo.main import main, load_tasks, save_tasks, add_task, list_tasks, remove_task, mark_complete
 
 class TestMain(unittest.TestCase):
 
@@ -71,6 +71,23 @@ class TestMain(unittest.TestCase):
         # Test adding and removing tasks when the file is empty
         main(["add", "task1"])
         main(["remove", "1"])
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+
+    def test_mark_complete(self):
+        main(["add", "task1"])
+        main(["complete", "1"])
+        tasks = load_tasks()
+        self.assertEqual(tasks[0], "[DONE] task1")
+        save_tasks(tasks)
+
+    def test_mark_complete_invalid_task(self):
+        main(["complete", "abc"])
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+
+    def test_mark_complete_out_of_range(self):
+        main(["complete", "99"])
         tasks = load_tasks()
         self.assertEqual(len(tasks), 0)
 

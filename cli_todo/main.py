@@ -51,9 +51,23 @@ def remove_task(task_number):
     except ValueError:
         print("Invalid task number. Please enter a number.")
 
+def mark_complete(task_number):
+    """Marks a task as complete."""
+    tasks = load_tasks()
+    try:
+        index = int(task_number) - 1
+        if 0 <= index < len(tasks):
+            tasks[index] = f"[DONE] {tasks[index]}"
+            save_tasks(tasks)
+            print(f"Task '{tasks[index]}' marked as complete.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Invalid task number. Please enter a number.")
+
 def main():
     parser = argparse.ArgumentParser(description="A simple command-line todo list.")
-    parser.add_argument("action", choices=["add", "list", "remove"], help="Action to perform.")
+    parser.add_argument("action", choices=["add", "list", "remove", "complete"], help="Action to perform.")
     parser.add_argument("task", nargs="*", help="Task(s) to add or number of task to remove.")
 
     args = parser.parse_args()
@@ -70,6 +84,11 @@ def main():
             print("Please provide a task number to remove.")
         else:
             remove_task(args.task[0])
+    elif args.action == "complete":
+        if not args.task:
+            print("Please provide a task number to mark as complete.")
+        else:
+            mark_complete(args.task[0])
 
 
 if __name__ == "__main__":
