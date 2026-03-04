@@ -1,7 +1,7 @@
 import unittest
 import sys
 import os
-from cli_todo.main import main, load_tasks, save_tasks, add_task, list_tasks, remove_task, mark_complete
+from cli_todo.main import main, load_tasks, save_tasks, add_task, list_tasks, remove_task, mark_complete, prioritize_task
 
 class TestMain(unittest.TestCase):
 
@@ -90,6 +90,31 @@ class TestMain(unittest.TestCase):
         main(["complete", "99"])
         tasks = load_tasks()
         self.assertEqual(len(tasks), 0)
+
+    def test_prioritize_task(self):
+        main(["prioritize", "1", "high"])
+        tasks = load_tasks()
+        self.assertEqual(tasks[0], "* task1")
+        save_tasks(tasks)
+
+    def test_prioritize_invalid_priority(self):
+        main(["prioritize", "1", "invalid"])
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+
+    def test_prioritize_invalid_task_number(self):
+        main(["prioritize", "abc", "high"])
+        tasks = load_tasks()
+        self.assertEqual(len(tasks), 0)
+
+    def test_prioritize_multiple_tasks(self):
+        main(["add", "task1", "task2"])
+        main(["prioritize", "1", "high"])
+        main(["prioritize", "2", "low"])
+        tasks = load_tasks()
+        self.assertEqual(tasks[0], "* task1")
+        self.assertEqual(tasks[1], "task2")
+        save_tasks(tasks)
 
 if __name__ == '__main__':
     unittest.main()

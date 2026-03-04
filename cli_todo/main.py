@@ -65,9 +65,23 @@ def mark_complete(task_number):
     except ValueError:
         print("Invalid task number. Please enter a number.")
 
+def prioritize_task(task_number, priority):
+    """Prioritizes a task."""
+    tasks = load_tasks()
+    try:
+        index = int(task_number) - 1
+        if 0 <= index < len(tasks):
+            tasks[index] = f"* {tasks[index]}"  # Add asterisk for priority
+            save_tasks(tasks)
+            print(f"Task '{tasks[index]}' prioritized.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Invalid task number. Please enter a number.")
+
 def main():
     parser = argparse.ArgumentParser(description="A simple command-line todo list.")
-    parser.add_argument("action", choices=["add", "list", "remove", "complete"], help="Action to perform.")
+    parser.add_argument("action", choices=["add", "list", "remove", "complete", "prioritize"], help="Action to perform.")
     parser.add_argument("task", nargs="*", help="Task(s) to add or number of task to remove.")
 
     args = parser.parse_args()
@@ -89,6 +103,16 @@ def main():
             print("Please provide a task number to mark as complete.")
         else:
             mark_complete(args.task[0])
+    elif args.action == "prioritize":
+        if not args.task or len(args.task) != 2:
+            print("Usage: prioritize <task_number> <priority (e.g., high, medium, low)>")
+            return
+        try:
+            task_number = args.task[0]
+            priority = args.task[1].lower()
+            prioritize_task(task_number, priority)
+        except ValueError:
+            print("Invalid priority. Please use 'high', 'medium', or 'low'.")
 
 
 if __name__ == "__main__":
