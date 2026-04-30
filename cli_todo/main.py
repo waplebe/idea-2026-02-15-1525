@@ -11,6 +11,7 @@ def load_tasks():
             with open(DATA_FILE, "r") as f:
                 return json.load(f)
         except json.JSONDecodeError:
+            print(f"Warning: Could not decode {DATA_FILE}.  Starting with an empty list.")
             return []
     else:
         return []
@@ -71,7 +72,15 @@ def prioritize_task(task_number, priority):
     try:
         index = int(task_number) - 1
         if 0 <= index < len(tasks):
-            tasks[index] = f"* {tasks[index]}"  # Add asterisk for priority
+            if priority.lower() == "high":
+                tasks[index] = f"* High: {tasks[index]}"
+            elif priority.lower() == "medium":
+                tasks[index] = f"* Medium: {tasks[index]}"
+            elif priority.lower() == "low":
+                tasks[index] = f"* Low: {tasks[index]}"
+            else:
+                print("Invalid priority. Please use 'high', 'medium', or 'low'.")
+                return
             save_tasks(tasks)
             print(f"Task '{tasks[index]}' prioritized.")
         else:
